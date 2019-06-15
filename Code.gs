@@ -1,4 +1,4 @@
-function check(e)
+function check()
 {
   var app=SpreadsheetApp;
   var master_sheet = app.getActiveSpreadsheet().getSheetByName("Mastersheet");
@@ -22,9 +22,18 @@ function fromResponse_2_exhange(app)
   var last_update_response = response_sheet.getLastRow()-1;
   var last_update_issue = issue_sheet.getRange(issue_sheet.getLastRow(),1).getValue();
   var num_items = 0;
-  var items,details,timestamp,email,reason;
-  Logger.log(last_update_response);
-  Logger.log(last_update_issue);
+  var items,index,details,timestamp,email,reason,isAvailable,duedate,head;
+  var checkboxes = SpreadsheetApp.newDataValidation().requireCheckbox().setAllowInvalid(false).build();
+  var headnames = master_sheet.getRange(1, 4, 2, 8).getValues();
+  var head_sheet = new Array(headnames[0].length);
+  for (var i = 0; i<headnames[0].length;i++)
+  {   
+    Logger.log(headnames[0][i]);
+    head_sheet[i] = app.getActiveSpreadsheet().getSheetByName(headnames[0][i].toString());
+
+  }
+//  Logger.log(last_update_response);
+//  Logger.log(last_update_issue);
   for(var j = last_update_issue; j<last_update_response; j++)
   {
     items = response_sheet.getRange(j+2, 6).getValue();
@@ -32,21 +41,25 @@ function fromResponse_2_exhange(app)
     timestamp = response_sheet.getRange(j+2, 2).getValue();
     reason = response_sheet.getRange(j+2, 7, 1, 2).getValues();
     email = response_sheet.getRange(j+2, 1).getValue();
-    
-
+    duedate = response_sheet.getRange(j+2, 9).getValue();
     var array1 = [{}];
     var string1 = items;
     array1 = string1.split(",");
     Logger.log(details);
     for(var i = 0;i<array1.length;i++)
     {
-      issue_sheet.getRange(issue_sheet.getLastRow()+1,2).setValue(array1[i]);
-      issue_sheet.getRange(issue_sheet.getLastRow(),3).setValue(checkAvailable(master_sheet,array1[i].toString()));
-      issue_sheet.getRange(issue_sheet.getLastRow(),1).setValue(j+1);
-      issue_sheet.getRange(issue_sheet.getLastRow(),6).setValue(timestamp);
-      issue_sheet.getRange(issue_sheet.getLastRow(),7).setValue(details.toString());
-      issue_sheet.getRange(issue_sheet.getLastRow(),8).setValue(email.toString());
-      issue_sheet.getRange(issue_sheet.getLastRow(),9).setValue(reason.toString());
+      index = checkAvailable(master_sheet,array1[i].toString());
+      isAvailable = index>0;
+      issue_sheet.appendRow([j+1,array1[i],isAvailable," "," ",timestamp,details.toString(),email.toString(),reason.toString(),duedate])
+
+      if(isAvailable)
+      {
+        head = master_sheet.getRange(index, 12).getValue();
+        issue_sheet.getRange(issue_sheet.getLastRow(),4).setValue(headnames[0][head-1]);
+        issue_sheet.getRange(issue_sheet.getLastRow(),4).setValue(headnames[1][head-1]);
+        Logger.log(head);
+        head_sheet[head].appendRow([master_sheet.getRange(index,2),array1[i],master_sheet.getRange(index,13),details.toString(),reason.toString(),duedate]);
+      }
     }
   }
 }
@@ -54,21 +67,18 @@ function fromResponse_2_exhange(app)
 
 function checkAvailable(sheet,key)
 {
-  var avail = false
+  var avail = -1
   ind = search(3,sheet,key)
   Logger.log(ind);
   if(ind != -1)
   {
      if(sheet.getRange(ind, 14).getValue() == "Available")
      {
-       avail = true;
+       avail = ind;
      }
   }
   return avail;
 }
-
-
-
 
 function search(col,search_sheet,key)
 {
