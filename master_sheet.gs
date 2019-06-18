@@ -13,7 +13,7 @@ function check()
     }
   }
 }
-function fromResponse_2_exhange(app)
+function fromResponse_2_exhange()
 {
   var app=SpreadsheetApp;
   var response_sheet = app.getActiveSpreadsheet().getSheetByName("Form_responses");
@@ -55,8 +55,8 @@ function fromResponse_2_exhange(app)
         issue_sheet.getRange(issue_sheet.getLastRow(),4).setValue(headnames[0][head-1]);
         issue_sheet.getRange(issue_sheet.getLastRow(),5).setValue(headnames[1][head-1]);
         Logger.log(head);
-        head_sheet[head-1].appendRow([master_sheet.getRange(index,2).getValue(),array1[i],master_sheet.getRange(index,13).getValue(),details.toString(),reason.toString(),duedate," ",duedate]);
-        head_sheet[head-1].getRange(head_sheet[head-1].getLastRow(),7).setDataValidation(checkboxes).setValue(false);
+        head_sheet[head-1].appendRow([master_sheet.getRange(index,2).getValue(),array1[i]," ",master_sheet.getRange(index,13).getValue(),details.toString(),reason.toString(),duedate]);
+        head_sheet[head-1].getRange(head_sheet[head-1].getLastRow(),8).setDataValidation(checkboxes).setValue(false);
         
       }
     }
