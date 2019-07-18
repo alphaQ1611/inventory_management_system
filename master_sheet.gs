@@ -1,4 +1,60 @@
-function check()
+function form_filled(e)
+{
+  fromResponse_2_exhange();
+//  var details = e.namedValues['Name'],[0];
+//  Logger.log(details);
+//  var
+//  
+//  var app=SpreadsheetApp;
+//  var master_sheet = app.getActiveSpreadsheet().getSheetByName("Mastersheet");
+//  var num_items = 0;
+//  var items,index,details,timestamp,email,reason,isAvailable,duedate,head;
+//  var checkboxes = SpreadsheetApp.newDataValidation().requireCheckbox().setAllowInvalid(false).build();
+//  var headnames = master_sheet.getRange(1, 4, 2, 8).getValues();
+//  var head_sheet = new Array(headnames[0].length);
+//  for (var i = 0; i<headnames[0].length;i++)
+//  {   
+//    head_sheet[i] = app.getActiveSpreadsheet().getSheetByName(headnames[0][i].toString());
+//  }
+//
+//  for(var j = last_update_issue; j<last_update_response; j++)
+//  {
+//    items = response_sheet.getRange(j+2, 6).getValue();
+//    details = response_sheet.getRange(j+2, 3, 1, 3).getValues();
+//    timestamp = response_sheet.getRange(j+2, 2).getValue();
+//    reason = response_sheet.getRange(j+2, 7, 1, 2).getValues();
+//    email = response_sheet.getRange(j+2, 1).getValue();
+//    duedate = response_sheet.getRange(j+2, 9).getValue();
+//    var array1 = [{}];
+//    var string1 = items;
+//    array1 = string1.split(",");
+//    for(var i = 0;i<array1.length;i++)
+//    {
+//      index = checkAvailable(master_sheet,array1[i].toString());
+//      isAvailable = index>0;
+//      issue_sheet.appendRow([j+1,array1[i],isAvailable," "," ",timestamp,details.toString(),email.toString(),reason.toString(),duedate])
+//
+//      if(isAvailable)
+//      {
+//        head = master_sheet.getRange(index, 12).getValue();
+//        issue_sheet.getRange(issue_sheet.getLastRow(),4).setValue(headnames[0][head-1]);
+//        issue_sheet.getRange(issue_sheet.getLastRow(),5).setValue(headnames[1][head-1]);
+//        Logger.log(head);
+//        head_sheet[head-1].appendRow([master_sheet.getRange(index,2).getValue(),array1[i]," ",master_sheet.getRange(index,13).getValue(),details.toString(),reason.toString(),duedate]);
+//        head_sheet[head-1].getRange(head_sheet[head-1].getLastRow(),8).setDataValidation(checkboxes).setValue(false);
+//        
+//      }
+//    }
+//  }
+//}
+
+  
+  
+  
+  
+}
+
+function check_available()
 {
   var app=SpreadsheetApp;
   var master_sheet = app.getActiveSpreadsheet().getSheetByName("Mastersheet");
@@ -13,6 +69,10 @@ function check()
     }
   }
 }
+
+
+
+
 function fromResponse_2_exhange()
 {
   var app=SpreadsheetApp;
